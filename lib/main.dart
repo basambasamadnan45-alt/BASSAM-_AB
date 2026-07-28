@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MessageABApp());
+  runApp(const ConnectAB());
 }
 
-class MessageABApp extends StatelessWidget {
-  const MessageABApp({super.key});
+class ConnectAB extends StatelessWidget {
+  const ConnectAB({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Message AB',
+      title: 'Connect AB',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -26,13 +26,13 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Background(
+      body: GradientBackground(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
 
             const Icon(
-              Icons.message,
+              Icons.public,
               size: 90,
               color: Colors.white,
             ),
@@ -40,11 +40,11 @@ class WelcomePage extends StatelessWidget {
             const SizedBox(height: 20),
 
             const Text(
-              'Message AB',
+              'Connect AB',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 36,
+                fontSize: 38,
                 fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
 
@@ -53,14 +53,14 @@ class WelcomePage extends StatelessWidget {
             const Text(
               'تواصل مع العالم بسهولة',
               style: TextStyle(
-                color: Colors.white,
                 fontSize: 20,
+                color: Colors.white,
               ),
             ),
 
             const SizedBox(height: 50),
 
-            Button(
+            MainButton(
               text: 'إنشاء حساب',
               onTap: () {
                 Navigator.push(
@@ -74,7 +74,7 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            Button(
+            MainButton(
               text: 'لدي حساب',
               onTap: () {
                 Navigator.push(
@@ -99,17 +99,15 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Background(
-        child: FormPage(
+      body: GradientBackground(
+        child: AccountForm(
           title: 'إنشاء حساب',
           fields: const [
             'رقم الهاتف',
             'البريد الإلكتروني',
             'كلمة المرور',
           ],
-          button: 'إنشاء حساب',
-          action: () {
-          },
+          buttonText: 'إنشاء حساب',
         ),
       ),
     );
@@ -123,16 +121,14 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Background(
-        child: FormPage(
+      body: GradientBackground(
+        child: AccountForm(
           title: 'تسجيل الدخول',
           fields: const [
-            'رقم الهاتف أو البريد الإلكتروني',
+            'البريد الإلكتروني أو رقم الهاتف',
             'كلمة المرور',
           ],
-          button: 'دخول',
-          action: () {
-          },
+          buttonText: 'دخول',
         ),
       ),
     );
@@ -144,17 +140,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Background(
+      body: GradientBackground(
         child: Column(
           children: [
 
             const SizedBox(height: 50),
 
             const Text(
-              'Message AB',
+              'Connect AB',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 32,
+                fontSize: 34,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -174,8 +170,8 @@ class HomePage extends StatelessWidget {
                     leading: CircleAvatar(
                       child: Icon(Icons.person),
                     ),
-                    title: Text('لا توجد محادثات'),
-                    subtitle: Text('ابدأ محادثة جديدة'),
+                    title: Text('مرحباً بك في Connect AB'),
+                    subtitle: Text('ابدأ التواصل مع الآخرين'),
                   ),
 
                 ],
@@ -184,12 +180,12 @@ class HomePage extends StatelessWidget {
 
             const Spacer(),
 
-            Button(
+            MainButton(
               text: 'رسالة جديدة',
               onTap: () {},
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -217,7 +213,6 @@ class HomePage extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
-
           ],
         ),
       ),
@@ -226,57 +221,23 @@ class HomePage extends StatelessWidget {
 }
 
 
-class Background extends StatelessWidget {
-  final Widget child;
+class AccountForm extends StatelessWidget {
 
-  const Background({
-    super.key,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.blue,
-            Colors.purple,
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(25),
-          child: Directionality(
-            textDirection: TextDirection.rtl,
-            child: child,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-
-class FormPage extends StatelessWidget {
   final String title;
   final List<String> fields;
-  final String button;
-  final VoidCallback action;
+  final String buttonText;
 
-  const FormPage({
+  const AccountForm({
     super.key,
     required this.title,
     required this.fields,
-    required this.button,
-    required this.action,
+    required this.buttonText,
   });
+
 
   @override
   Widget build(BuildContext context) {
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -311,9 +272,16 @@ class FormPage extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          Button(
-            text: button,
-            onTap: action,
+          MainButton(
+            text: buttonText,
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const HomePage(),
+                ),
+              );
+            },
           ),
 
         ],
@@ -323,23 +291,67 @@ class FormPage extends StatelessWidget {
 }
 
 
-class Button extends StatelessWidget {
+class GradientBackground extends StatelessWidget {
+
+  final Widget child;
+
+  const GradientBackground({
+    super.key,
+    required this.child,
+  });
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.blue,
+            Colors.purple,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(25),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: child,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class MainButton extends StatelessWidget {
+
   final String text;
   final VoidCallback onTap;
 
-  const Button({
+  const MainButton({
     super.key,
     required this.text,
     required this.onTap,
   });
 
+
   @override
   Widget build(BuildContext context) {
+
     return SizedBox(
-      width: 250,
+      width: 260,
       height: 55,
+
       child: ElevatedButton(
         onPressed: onTap,
+
         child: Text(
           text,
           style: const TextStyle(
