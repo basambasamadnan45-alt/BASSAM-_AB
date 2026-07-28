@@ -14,36 +14,43 @@ class MessageABApp extends StatelessWidget {
       title: 'Message AB',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: 'Arial',
       ),
-      home: const LoginPage(),
+      home: const WelcomePage(),
     );
   }
 }
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class WelcomePage extends StatelessWidget {
+  const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Directionality(
-        textDirection: TextDirection.rtl,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.blue,
+              Colors.lightBlueAccent,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(25),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
 
                 const CircleAvatar(
-                  radius: 55,
-                  backgroundColor: Colors.blue,
+                  radius: 60,
+                  backgroundColor: Colors.white,
                   child: Icon(
                     Icons.message,
-                    size: 60,
-                    color: Colors.white,
+                    size: 70,
+                    color: Colors.blue,
                   ),
                 ),
 
@@ -52,56 +59,68 @@ class LoginPage extends StatelessWidget {
                 const Text(
                   'Message AB',
                   style: TextStyle(
-                    fontSize: 32,
+                    color: Colors.white,
+                    fontSize: 35,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
 
-                const SizedBox(height: 10),
+                const SizedBox(height: 15),
 
                 const Text(
-                  'مرحباً بك في تطبيق Message AB',
+                  'تواصل مع العالم بسهولة',
                   style: TextStyle(
-                    fontSize: 18,
+                    color: Colors.white,
+                    fontSize: 20,
                   ),
                 ),
 
-                const SizedBox(height: 35),
+                const SizedBox(height: 50),
 
-                TextField(
-                  textDirection: TextDirection.rtl,
-                  decoration: InputDecoration(
-                    hintText: 'رقم الهاتف',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(250, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
                     ),
-                    prefixIcon: const Icon(Icons.phone),
                   ),
-                  keyboardType: TextInputType.phone,
-                ),
-
-                const SizedBox(height: 25),
-
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const RegisterPage(),
                       ),
+                    );
+                  },
+                  child: const Text(
+                    'إنشاء حساب',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(250, 50),
+                    side: const BorderSide(color: Colors.white),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      'دخول',
-                      style: TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const LoginPage(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'لدي حساب',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
                     ),
                   ),
                 ),
@@ -115,26 +134,87 @@ class LoginPage extends StatelessWidget {
 }
 
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Message AB'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('إنشاء حساب')),
+      body: const Padding(
+        padding: EdgeInsets.all(25),
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Column(
+            children: [
 
-      body: const Directionality(
-        textDirection: TextDirection.rtl,
-        child: Center(
-          child: Text(
-            'أهلاً بك في الصفحة الرئيسية',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'رقم الهاتف',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+              SizedBox(height: 20),
+
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'البريد الإلكتروني',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+              SizedBox(height: 20),
+
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'كلمة المرور',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('تسجيل الدخول')),
+      body: const Padding(
+        padding: EdgeInsets.all(25),
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Column(
+            children: [
+
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'رقم الهاتف أو البريد الإلكتروني',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+              SizedBox(height: 20),
+
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'كلمة المرور',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+            ],
           ),
         ),
       ),
