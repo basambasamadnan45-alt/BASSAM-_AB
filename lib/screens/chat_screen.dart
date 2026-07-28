@@ -1,0 +1,175 @@
+import 'package:flutter/material.dart';
+
+class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key});
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+
+class _ChatScreenState extends State<ChatScreen> {
+
+  final TextEditingController messageController =
+      TextEditingController();
+
+
+  final List<String> messages = [];
+
+
+  void sendMessage() {
+
+    if (messageController.text.trim().isEmpty) {
+      return;
+    }
+
+    setState(() {
+
+      messages.add(
+        messageController.text.trim(),
+      );
+
+      messageController.clear();
+
+    });
+
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+      appBar: AppBar(
+
+        title: const Text(
+          'المحادثات',
+        ),
+
+        centerTitle: true,
+
+      ),
+
+
+      body: Column(
+
+        children: [
+
+          Expanded(
+
+            child: ListView.builder(
+
+              padding: const EdgeInsets.all(15),
+
+              itemCount: messages.length,
+
+              itemBuilder: (context, index) {
+
+                return Align(
+
+                  alignment: Alignment.centerRight,
+
+                  child: Container(
+
+                    margin: const EdgeInsets.only(
+                      bottom: 10,
+                    ),
+
+                    padding: const EdgeInsets.all(12),
+
+                    decoration: BoxDecoration(
+
+                      color: Colors.blue,
+
+                      borderRadius:
+                          BorderRadius.circular(15),
+
+                    ),
+
+
+                    child: Text(
+
+                      messages[index],
+
+                      style: const TextStyle(
+
+                        color: Colors.white,
+
+                        fontSize: 16,
+
+                      ),
+
+                    ),
+
+                  ),
+
+                );
+
+              },
+
+            ),
+
+          ),
+
+
+          Container(
+
+            padding: const EdgeInsets.all(10),
+
+            child: Row(
+
+              children: [
+
+                Expanded(
+
+                  child: TextField(
+
+                    controller: messageController,
+
+                    decoration: InputDecoration(
+
+                      hintText: 'اكتب رسالة',
+
+                      border: OutlineInputBorder(
+
+                        borderRadius:
+                            BorderRadius.circular(20),
+
+                      ),
+
+                    ),
+
+                  ),
+
+                ),
+
+
+                IconButton(
+
+                  onPressed: sendMessage,
+
+                  icon: const Icon(
+
+                    Icons.send,
+
+                    color: Colors.blue,
+
+                  ),
+
+                ),
+
+              ],
+
+            ),
+
+          ),
+
+        ],
+
+      ),
+
+    );
+
+  }
+}
