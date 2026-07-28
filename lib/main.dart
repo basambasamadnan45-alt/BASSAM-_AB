@@ -12,10 +12,6 @@ class MessageABApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Message AB',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Arial',
-      ),
       home: const WelcomePage(),
     );
   }
@@ -27,85 +23,65 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.blue,
-              Colors.purple,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Center(
-          child: Directionality(
-            textDirection: TextDirection.rtl,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-                const CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.message,
-                    size: 70,
-                    color: Colors.blue,
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                const Text(
-                  'Message AB',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const SizedBox(height: 15),
-
-                const Text(
-                  'تواصل مع العالم بسهولة',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-
-                const SizedBox(height: 50),
-
-                AppButton(
-                  text: 'إنشاء حساب',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const RegisterPage(),
-                      ),
-                    );
-                  },
-                ),
-
-                const SizedBox(height: 20),
-
-                AppButton(
-                  text: 'لدي حساب',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const LoginPage(),
-                      ),
-                    );
-                  },
-                ),
-              ],
+      body: GradientPage(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.message,
+              size: 90,
+              color: Colors.white,
             ),
-          ),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              'Message AB',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 15),
+
+            const Text(
+              'تواصل مع العالم بسهولة',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+
+            const SizedBox(height: 50),
+
+            AppButton(
+              text: 'إنشاء حساب',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const RegisterPage(),
+                  ),
+                );
+              },
+            ),
+
+            const SizedBox(height: 20),
+
+            AppButton(
+              text: 'لدي حساب',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const LoginPage(),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -119,8 +95,8 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GradientBackground(
-        child: FormBox(
+      body: GradientPage(
+        child: FormDesign(
           title: 'إنشاء حساب',
           fields: const [
             'رقم الهاتف',
@@ -128,6 +104,8 @@ class RegisterPage extends StatelessWidget {
             'كلمة المرور',
           ],
           button: 'إنشاء حساب',
+          action: () {
+          },
         ),
       ),
     );
@@ -141,14 +119,16 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GradientBackground(
-        child: FormBox(
+      body: GradientPage(
+        child: FormDesign(
           title: 'تسجيل الدخول',
           fields: const [
             'رقم الهاتف أو البريد الإلكتروني',
             'كلمة المرور',
           ],
           button: 'دخول',
+          action: () {
+          },
         ),
       ),
     );
@@ -162,17 +142,13 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GradientBackground(
-        child: Center(
-          child: Directionality(
-            textDirection: TextDirection.rtl,
-            child: const Text(
-              'مرحباً بك في Message AB',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
+      body: GradientPage(
+        child: const Center(
+          child: Text(
+            'مرحباً بك في Message AB',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 28,
             ),
           ),
         ),
@@ -182,10 +158,10 @@ class HomePage extends StatelessWidget {
 }
 
 
-class GradientBackground extends StatelessWidget {
+class GradientPage extends StatelessWidget {
   final Widget child;
 
-  const GradientBackground({
+  const GradientPage({
     super.key,
     required this.child,
   });
@@ -199,73 +175,78 @@ class GradientBackground extends StatelessWidget {
             Colors.blue,
             Colors.purple,
           ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
       ),
-      child: child,
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(25),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: child,
+          ),
+        ),
+      ),
     );
   }
 }
 
 
-class FormBox extends StatelessWidget {
+class FormDesign extends StatelessWidget {
   final String title;
   final List<String> fields;
   final String button;
+  final VoidCallback action;
 
-  const FormBox({
+  const FormDesign({
     super.key,
     required this.title,
     required this.fields,
     required this.button,
+    required this.action,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(25),
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: Column(
-            children: [
+    return SingleChildScrollView(
+      child: Column(
+        children: [
 
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+          Text(
+            title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
 
-              const SizedBox(height: 30),
+          const SizedBox(height: 30),
 
-              ...fields.map(
-                (field) => Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: TextField(
-                    obscureText: field == 'كلمة المرور',
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: field,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
+          ...fields.map(
+            (e) => Padding(
+              padding: const EdgeInsets.only(bottom: 15),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: e,
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
                 ),
               ),
-
-              const SizedBox(height: 20),
-
-              AppButton(
-                text: button,
-                onTap: () {},
-              ),
-            ],
+            ),
           ),
-        ),
+
+          const SizedBox(height: 20),
+
+          AppButton(
+            text: button,
+            onTap: action,
+          ),
+        ],
       ),
     );
   }
@@ -289,19 +270,9 @@ class AppButton extends StatelessWidget {
       height: 55,
       child: ElevatedButton(
         onPressed: onTap,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.blue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
         child: Text(
           text,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 20),
         ),
       ),
     );
