@@ -12,6 +12,9 @@ class MessageABApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Message AB',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
       home: const WelcomePage(),
     );
   }
@@ -23,10 +26,11 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GradientPage(
+      body: Background(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
             const Icon(
               Icons.message,
               size: 90,
@@ -56,7 +60,7 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 50),
 
-            AppButton(
+            Button(
               text: 'إنشاء حساب',
               onTap: () {
                 Navigator.push(
@@ -70,7 +74,7 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            AppButton(
+            Button(
               text: 'لدي حساب',
               onTap: () {
                 Navigator.push(
@@ -95,8 +99,8 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GradientPage(
-        child: FormDesign(
+      body: Background(
+        child: FormPage(
           title: 'إنشاء حساب',
           fields: const [
             'رقم الهاتف',
@@ -119,8 +123,8 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GradientPage(
-        child: FormDesign(
+      body: Background(
+        child: FormPage(
           title: 'تسجيل الدخول',
           fields: const [
             'رقم الهاتف أو البريد الإلكتروني',
@@ -134,23 +138,87 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
-
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GradientPage(
-        child: const Center(
-          child: Text(
-            'مرحباً بك في Message AB',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 28,
+      body: Background(
+        child: Column(
+          children: [
+
+            const SizedBox(height: 50),
+
+            const Text(
+              'Message AB',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
+
+            const SizedBox(height: 30),
+
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Column(
+                children: [
+
+                  ListTile(
+                    leading: CircleAvatar(
+                      child: Icon(Icons.person),
+                    ),
+                    title: Text('لا توجد محادثات'),
+                    subtitle: Text('ابدأ محادثة جديدة'),
+                  ),
+
+                ],
+              ),
+            ),
+
+            const Spacer(),
+
+            Button(
+              text: 'رسالة جديدة',
+              onTap: () {},
+            ),
+
+            const SizedBox(height: 30),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                ),
+
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.settings,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                ),
+
+              ],
+            ),
+
+            const SizedBox(height: 20),
+
+          ],
         ),
       ),
     );
@@ -158,10 +226,10 @@ class HomePage extends StatelessWidget {
 }
 
 
-class GradientPage extends StatelessWidget {
+class Background extends StatelessWidget {
   final Widget child;
 
-  const GradientPage({
+  const Background({
     super.key,
     required this.child,
   });
@@ -193,13 +261,13 @@ class GradientPage extends StatelessWidget {
 }
 
 
-class FormDesign extends StatelessWidget {
+class FormPage extends StatelessWidget {
   final String title;
   final List<String> fields;
   final String button;
   final VoidCallback action;
 
-  const FormDesign({
+  const FormPage({
     super.key,
     required this.title,
     required this.fields,
@@ -225,11 +293,12 @@ class FormDesign extends StatelessWidget {
           const SizedBox(height: 30),
 
           ...fields.map(
-            (e) => Padding(
+            (field) => Padding(
               padding: const EdgeInsets.only(bottom: 15),
               child: TextField(
+                obscureText: field == 'كلمة المرور',
                 decoration: InputDecoration(
-                  hintText: e,
+                  hintText: field,
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -242,10 +311,11 @@ class FormDesign extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          AppButton(
+          Button(
             text: button,
             onTap: action,
           ),
+
         ],
       ),
     );
@@ -253,11 +323,11 @@ class FormDesign extends StatelessWidget {
 }
 
 
-class AppButton extends StatelessWidget {
+class Button extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
 
-  const AppButton({
+  const Button({
     super.key,
     required this.text,
     required this.onTap,
@@ -272,7 +342,9 @@ class AppButton extends StatelessWidget {
         onPressed: onTap,
         child: Text(
           text,
-          style: const TextStyle(fontSize: 20),
+          style: const TextStyle(
+            fontSize: 20,
+          ),
         ),
       ),
     );
