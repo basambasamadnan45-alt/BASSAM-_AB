@@ -35,7 +35,7 @@ class StoryModel {
           DateTime.tryParse(map['createdAt'] ?? '') ?? DateTime.now(),
       expiresAt:
           DateTime.tryParse(map['expiresAt'] ?? '') ??
-              DateTime.now().add(const Duration(hours: 24)),
+          DateTime.now().add(const Duration(hours: 24)),
       viewers: List<String>.from(map['viewers'] ?? []),
       reactions: List<String>.from(map['reactions'] ?? []),
     );
