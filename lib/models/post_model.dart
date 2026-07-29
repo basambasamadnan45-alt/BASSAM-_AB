@@ -35,12 +35,14 @@ class PostModel {
       ownerPhoto: map['ownerPhoto'] ?? '',
       caption: map['caption'] ?? '',
       mediaUrls: List<String>.from(map['mediaUrls'] ?? []),
-      mediaType: map['mediaType'] ?? 'image',
+      mediaType: map['mediaType'] ?? '',
       likes: List<String>.from(map['likes'] ?? []),
       commentsCount: map['commentsCount'] ?? 0,
       sharesCount: map['sharesCount'] ?? 0,
       viewsCount: map['viewsCount'] ?? 0,
-      createdAt: DateTime.tryParse(map['createdAt'] ?? '') ?? DateTime.now(),
+      createdAt: DateTime.parse(
+        map['createdAt'] ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 
