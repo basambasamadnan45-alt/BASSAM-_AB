@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'create_post_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -63,10 +64,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                );
-              },
-            ),
-          ),
 
           Card(
             margin: const EdgeInsets.all(12),
