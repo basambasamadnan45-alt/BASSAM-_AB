@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-cat > lib/services/auth_service.dart <<'EOF'
-=======
->>>>>>> e1b115c (Complete models, services and project structure)
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -24,7 +20,7 @@ class AuthService {
     }
   }
 
-  Future<User?> login({
+  Future<User?> signIn({
     required String email,
     required String password,
   }) async {
@@ -47,7 +43,3 @@ class AuthService {
 
   User? get currentUser => _auth.currentUser;
 }
-<<<<<<< HEAD
-EOF
-=======
->>>>>>> e1b115c (Complete models, services and project structure)
