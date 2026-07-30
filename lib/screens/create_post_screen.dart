@@ -41,7 +41,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         _selectedImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("اكتب شيئًا أو اختر صورة"),
+          content: Text("اكتب منشورًا أو اختر صورة"),
         ),
       );
       return;
@@ -55,7 +55,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       final user = FirebaseAuth.instance.currentUser;
 
       if (user == null) {
-        throw Exception("يجب تسجيل الدخول أولًا");
+        throw Exception("يجب تسجيل الدخول أولاً");
       }
 
       await _postService.createPost(
@@ -64,16 +64,18 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         userId: user.uid,
         username: user.email ?? "مستخدم",
       );
-            ScaffoldMessenger.of(context).showSnackBar(
+            if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("تم نشر المنشور بنجاح"),
         ),
       );
 
-      if (mounted) {
-        Navigator.pop(context);
-      }
+      Navigator.pop(context);
     } catch (e) {
+      if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString()),
@@ -102,29 +104,22 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           ),
         ),
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: TextField(
-                  controller: _postController,
-                  maxLines: 5,
-                  decoration: const InputDecoration(
-                    hintText: "بماذا تفكر؟",
-                    border: InputBorder.none,
-                  ),
-                ),
+            TextField(
+              controller: _postController,
+              maxLines: 5,
+              decoration: const InputDecoration(
+                hintText: "بماذا تفكر؟",
+                border: OutlineInputBorder(),
               ),
             ),
 
-            const SizedBox(height: 16),
-
-            if (_selectedImage != null)
+            const SizedBox(height: 20),
+                        if (_selectedImage != null)
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.file(
@@ -134,7 +129,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   fit: BoxFit.cover,
                 ),
               ),
-                        const SizedBox(height: 20),
+
+            const SizedBox(height: 20),
 
             ElevatedButton.icon(
               onPressed: _pickImage,
@@ -145,7 +141,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               ),
             ),
 
-            const SizedBox(height: 15),
+            const SizedBox(height: 16),
 
             ElevatedButton.icon(
               onPressed: _isLoading ? null : _publishPost,
@@ -167,12 +163,15 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),
-            ),
+              ),
           ],
         ),
       ),
-    );  
-     ),
+    );
+                ),
+          ],
+        ),
+      ),
     );
   }
 
