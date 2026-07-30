@@ -16,7 +16,7 @@ class AuthService {
 
       return credential.user;
     } on FirebaseAuthException catch (e) {
-      throw Exception(e.message);
+      throw Exception(e.message ?? 'Registration failed');
     }
   }
 
@@ -33,7 +33,7 @@ class AuthService {
 
       return credential.user;
     } on FirebaseAuthException catch (e) {
-      throw Exception(e.message);
+      throw Exception(e.message ?? 'Sign in failed');
     }
   }
 
