@@ -1,67 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CreatePostScreen extends StatefulWidget {
-  const CreatePostScreen({super.key});
+import 'create_post_screen.dart';
 
-  @override
-  State<CreatePostScreen> createState() => _CreatePostScreenState();
-}
-
-class _CreatePostScreenState extends State<CreatePostScreen> {
-  final TextEditingController _postController =
-      TextEditingController();
-
-  final ImagePicker _picker = ImagePicker();
-
-  File? _selectedImage;
-
-  bool _isLoading = false;
-
-  Future<void> _pickImage() async {
-    final XFile? image = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
-
-    if (image == null) return;
-
-    setState(() {
-      _selectedImage = File(image.path);
-    });
-  }
-
-  Future<void> _publishPost() async {
-    if (_postController.text.trim().isEmpty &&
-        _selectedImage == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("اكتب شيئاً أو اختر صورة"),
-        ),
-      );
-      return;
-    }
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    await Future.delayed(const Duration(seconds: 1));
-
-    setState(() {
-      _isLoading = false;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("تم نشر المنشور بنجاح"),
-      ),
-    );
-
-    Navigator.pop(context);
-  }
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,84 +15,160 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         backgroundColor: Colors.blue,
         centerTitle: true,
         title: const Text(
-          "إضافة منشور",
+          'BASSAM AB',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {},
+          ),
+        ],
       ),
 
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('posts')
+            .orderBy(
+              'createdAt',
+              descending: true,
+            )
+            .snapshots(),
 
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState ==
+              ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-          children: [
-
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: TextField(
-                  controller: _postController,
-                  maxLines: 5,
-                  decoration: const InputDecoration(
-                    hintText: "بماذا تفكر؟",
-                    border: InputBorder.none,
-                  ),
-                ),
+          if (!snapshot.hasData ||
+              snapshot.data!.docs.isEmpty) {
+            return const Center(
+              child: Text(
+                'لا توجد منشورات بعد',
               ),
-            ),
+            );
+          }
 
-            const SizedBox(height: 15),
+          final posts = snapshot.data!.docs;
 
-            if (_selectedImage != null)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.file(
-                  _selectedImage!,
-                  height: 230,
-                  fit: BoxFit.cover,
-                ),
-              ),
+          return ListView.builder(
+            itemCount: posts.length,
 
-            const SizedBox(height: 15),
+            itemBuilder: (context, index) {
+              final data =
+                  posts[index].data()
+                      as Map<String, dynamic>;
 
-            ElevatedButton.icon(
-              onPressed: _pickImage,
-              icon: const Icon(Icons.photo),
-              label: const Text(
-                "اختيار صورة",
-              ),
-            ),
+              return Card(
+                margin: const EdgeInsets.all(12),
 
-            const SizedBox(height: 15),
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
 
-            ElevatedButton.icon(
-              onPressed: _isLoading ? null : _publishPost,
-              icon: _isLoading
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
+                  children: [
+
+                    ListTile(
+                      leading:
+                          const CircleAvatar(
+                        child:
+                            Icon(Icons.person),
                       ),
-                    )
-                  : const Icon(Icons.send),
 
-              label: Text(
-                _isLoading ? "جاري النشر..." : "نشر",
-              ),
-            ),
-          ],
+                      title: Text(
+                        data['username'] ??
+                            'مستخدم',
+                        style:
+                            const TextStyle(
+                          fontWeight:
+                              FontWeight.bold,
+                        ),
+                      ),
+
+                      subtitle:
+                          const Text(
+                        'منذ قليل',
+                      ),
+                    ),
+
+                    Padding(
+                      padding:
+                          const EdgeInsets.all(12),
+
+                      child: Text(
+                        data['text'] ?? '',
+                        style:
+                            const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+
+                    Row(
+                      mainAxisAlignment:
+                          MainAxisAlignment.spaceAround,
+
+                      children: [
+
+                        IconButton(
+                          icon: const Icon(
+                            Icons.favorite_border,
+                          ),
+                          onPressed: () {},
+                        ),
+
+                        IconButton(
+                          icon: const Icon(
+                            Icons.comment,
+                          ),
+                          onPressed: () {},
+                        ),
+
+                        IconButton(
+                          icon: const Icon(
+                            Icons.share,
+                          ),
+                          onPressed: () {},
+                        ),
+
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
+
+      floatingActionButton:
+          FloatingActionButton(
+        backgroundColor: Colors.blue,
+
+        child: const Icon(
+          Icons.add,
         ),
+
+        onPressed: () {
+          Navigator.push(
+            context,
+
+            MaterialPageRoute(
+              builder: (context) =>
+                  const CreatePostScreen(),
+            ),
+          );
+        },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _postController.dispose();
-    super.dispose();
   }
 }
