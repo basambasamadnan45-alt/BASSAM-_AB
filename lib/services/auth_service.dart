@@ -13,10 +13,9 @@ class AuthService {
         email: email.trim(),
         password: password,
       );
-
       return credential.user;
     } on FirebaseAuthException catch (e) {
-      throw Exception(e.message ?? 'Registration failed');
+      throw Exception(e.message);
     }
   }
 
@@ -30,10 +29,9 @@ class AuthService {
         email: email.trim(),
         password: password,
       );
-
       return credential.user;
     } on FirebaseAuthException catch (e) {
-      throw Exception(e.message ?? 'Sign in failed');
+      throw Exception(e.message);
     }
   }
 
