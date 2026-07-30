@@ -6,148 +6,70 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey.shade100,
 
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
         title: const Text(
           'Connect AB',
           style: TextStyle(
+            color: Colors.black,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true,
-      ),
-
-      body: Column(
-        children: [
-
-          const SizedBox(height: 20),
-
-          Card(
-            margin: const EdgeInsets.all(15),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-
-            child: const ListTile(
-              leading: CircleAvatar(
-                radius: 25,
-                child: Icon(Icons.person),
-              ),
-
-              title: Text(
-                'مرحباً بك في Connect AB',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              subtitle: Text(
-                'ابدأ التواصل مع الآخرين',
-              ),
-            ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            child: Icon(Icons.search, color: Colors.black),
           ),
-
-
-          const SizedBox(height: 20),
-
-
-          Expanded(
-            child: GridView.count(
-              padding: const EdgeInsets.all(15),
-              crossAxisCount: 2,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 15,
-
-              children: [
-
-                _homeCard(
-                  icon: Icons.chat,
-                  title: 'المحادثات',
-                ),
-
-                _homeCard(
-                  icon: Icons.video_library,
-                  title: 'الفيديوهات',
-                ),
-
-                _homeCard(
-                  icon: Icons.play_circle,
-                  title: 'ريلز',
-                ),
-
-                _homeCard(
-                  icon: Icons.people,
-                  title: 'المستخدمون',
-                ),
-
-              ],
-            ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            child: Icon(Icons.notifications_none, color: Colors.black),
           ),
-
+          Padding(
+            padding: EdgeInsets.only(right: 12),
+            child: Icon(Icons.chat_bubble_outline, color: Colors.black),
+          ),
         ],
       ),
 
+      body: const Center(
+        child: Text(
+          'Welcome to Connect AB',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+
       bottomNavigationBar: BottomNavigationBar(
-
         currentIndex: 0,
-
+        type: BottomNavigationBarType.fixed,
         items: const [
-
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'الرئيسية',
           ),
-
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
+            icon: Icon(Icons.video_library),
+            label: 'الفيديو',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_box),
+            label: 'إضافة',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
             label: 'الرسائل',
           ),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'الحساب',
+            label: 'حسابي',
           ),
-
-        ],
-      ),
-    );
-  }
-
-
-  Widget _homeCard({
-    required IconData icon,
-    required String title,
-  }) {
-
-    return Card(
-
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-
-      child: Column(
-
-        mainAxisAlignment: MainAxisAlignment.center,
-
-        children: [
-
-          Icon(
-            icon,
-            size: 45,
-            color: Colors.blue,
-          ),
-
-          const SizedBox(height: 10),
-
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
         ],
       ),
     );
