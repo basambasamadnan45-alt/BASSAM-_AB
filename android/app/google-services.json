@@ -1,1 +1,29 @@
-
+{
+  "project_info": {
+    "project_number": "953227686629",
+    "project_id": "connect-ab",
+    "storage_bucket": "connect-ab.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953227686629:android:355a5af256c854132c1a0c",
+        "android_client_info": {
+          "package_name": "com.connectab.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmOtwvhyB9VWj86zc6m4tD7PDVJEZM5X8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

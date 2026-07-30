@@ -1,11 +1,25 @@
-<<<<<<< HEAD
-cat > lib/services/auth_service.dart <<'EOF'
-=======
->>>>>>> e1b115c (Complete models, services and project structure)
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<User?> signIn({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      UserCredential credential = await _auth.signInWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
+      );
+
+      return credential.user;
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.message ?? 'فشل تسجيل الدخول');
+    }
+  }
 
   Future<User?> register({
     required String email,
@@ -14,40 +28,24 @@ class AuthService {
     try {
       UserCredential credential =
           await _auth.createUserWithEmailAndPassword(
+Ctrl + K
         email: email.trim(),
-        password: password,
+        password: password.trim(),
       );
 
       return credential.user;
     } on FirebaseAuthException catch (e) {
-      throw Exception(e.message);
+      throw Exception(e.message ?? 'فشل إنشاء الحساب');
     }
   }
 
-  Future<User?> login({
-    required String email,
-    required String password,
-  }) async {
-    try {
-      UserCredential credential =
-          await _auth.signInWithEmailAndPassword(
-        email: email.trim(),
-        password: password,
-      );
-
-      return credential.user;
-    } on FirebaseAuthException catch (e) {
-      throw Exception(e.message);
-    }
-  }
-
-  Future<void> logout() async {
+  Future<void> signOut() async {
     await _auth.signOut();
   }
 
   User? get currentUser => _auth.currentUser;
 }
-<<<<<<< HEAD
+Ctrl + D
 EOF
-=======
->>>>>>> e1b115c (Complete models, services and project structure)
+exit
+cancel
