@@ -84,9 +84,15 @@ class HomeScreen extends StatelessWidget {
                 'شارك منشوراً جديداً',
               ),
               trailing: IconButton(
-                icon: const Icon(Icons.add_circle),
-                onPressed: () {},
-              ),
+               icon: const Icon(Icons.add_circle),            onPressed: () {
+               Navigator.push(
+                 context,
+                 MaterialPageRoute(
+                   builder: (context) => const CreatePostScreen(),
+                 ),
+               );
+              },
+             ),
             ),
           ),
 
