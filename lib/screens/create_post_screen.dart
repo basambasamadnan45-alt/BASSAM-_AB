@@ -171,4 +171,14 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           ],
         ),
       ),
+    );  
+     ),
     );
+  }
+
+  @override
+  void dispose() {
+    _postController.dispose();
+    super.dispose();
+  }
+}
