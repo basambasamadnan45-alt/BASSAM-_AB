@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../models/post_model.dart';
+import '../services/post_service.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
