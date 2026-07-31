@@ -32,3 +32,14 @@ class AuthService {
       );
 
       return credential.user;
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.message ?? 'فشل إنشاء الحساب');
+    }
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
+
+  User? get currentUser => _auth.currentUser;
+}
