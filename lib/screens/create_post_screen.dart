@@ -63,9 +63,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         imageUrl: "",
         userId: user.uid,
         username: user.email ?? "مستخدم",
-            );
+      );
       
-            if (!mounted) return;
+      if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -142,10 +142,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),
             ),
-
-            const SizedBox(height: 16),
-
-                        ElevatedButton.icon(
+            
+const SizedBox(height: 16),
+    
+            ElevatedButton.icon(
               onPressed: _isLoading ? null : _publishPost,
               icon: _isLoading
                   ? const SizedBox(
