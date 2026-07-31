@@ -63,7 +63,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         imageUrl: "",
         userId: user.uid,
         username: user.email ?? "مستخدم",
-      );
+            );
+      
             if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -119,7 +120,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             ),
 
             const SizedBox(height: 20),
-                        if (_selectedImage != null)
+            
+            if (_selectedImage != null)
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.file(
