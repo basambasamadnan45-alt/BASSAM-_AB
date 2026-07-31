@@ -8,7 +8,7 @@ class AuthService {
     required String password,
   }) async {
     try {
-      UserCredential credential =
+      final UserCredential credential =
           await _auth.signInWithEmailAndPassword(
         email: email.trim(),
         password: password.trim(),
@@ -25,7 +25,7 @@ class AuthService {
     required String password,
   }) async {
     try {
-      UserCredential credential =
+      final UserCredential credential =
           await _auth.createUserWithEmailAndPassword(
         email: email.trim(),
         password: password.trim(),
