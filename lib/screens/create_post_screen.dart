@@ -143,7 +143,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
             const SizedBox(height: 16),
 
-            ElevatedButton.icon(
+                        ElevatedButton.icon(
               onPressed: _isLoading ? null : _publishPost,
               icon: _isLoading
                   ? const SizedBox(
@@ -163,12 +163,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),
-              ),
-          ],
-        ),
-      ),
-    );
-                ),
+            ),
           ],
         ),
       ),
