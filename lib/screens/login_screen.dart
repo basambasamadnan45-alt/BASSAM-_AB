@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final user = await _authService.signIn(
+      final user = await _authService.login(
         email: emailController.text,
         password: passwordController.text,
       );
