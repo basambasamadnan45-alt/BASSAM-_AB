@@ -60,7 +60,7 @@ class ConnectAB extends StatelessWidget {
             const ProfileScreen(),
 
         '/chat': (context) =>
-            const ChatScreen(),
+            const ChatScreen(otherUserId: 'test', otherUsername: 'User'),
 
         '/settings': (context) =>
             const SettingsScreen(),

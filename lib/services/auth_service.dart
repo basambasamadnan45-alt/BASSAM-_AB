@@ -3,23 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<User?> login({
-    required String email,
-    required String password,
-  }) async {
-    try {
-      final UserCredential credential =
-          await _auth.signInWithEmailAndPassword(
-        email: email.trim(),
-        password: password.trim(),
-      );
-
-      return credential.user;
-    } on FirebaseAuthException catch (e) {
-      throw Exception(e.message ?? 'فشل تسجيل الدخول');
-    }
-  }
-
   Future<User?> register({
     required String email,
     required String password,
@@ -33,7 +16,24 @@ class AuthService {
 
       return credential.user;
     } on FirebaseAuthException catch (e) {
-      throw Exception(e.message ?? 'فشل إنشاء الحساب');
+      throw Exception(e.message);
+    }
+  }
+
+  Future<User?> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final UserCredential credential =
+          await _auth.signInWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
+      );
+
+      return credential.user;
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.message);
     }
   }
 

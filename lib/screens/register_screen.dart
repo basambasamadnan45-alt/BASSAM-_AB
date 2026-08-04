@@ -1,3 +1,5 @@
+import '../services/auth_service.dart';
+import '../services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 
@@ -184,25 +186,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                   child: ElevatedButton(
 
-                    onPressed: () {
+                    onPressed: () async {
+try {
+final user = await AuthService().register(
+email: emailController.text,
+password: passwordController.text,
+);
 
-                      Navigator.pushReplacement(
+if (user != null) {
+await FirestoreService().createUserProfile(
+user: user,
+name: phoneController.text,
+);
 
-                        context,
+if (!context.mounted) return;
 
-                        MaterialPageRoute(
+Navigator.pushReplacement(
+context,
+MaterialPageRoute(
+builder: (_) => const HomeScreen(),
+),
+);
+}
+} catch (e) {
+if (!context.mounted) return;
+ScaffoldMessenger.of(context).showSnackBar(
+SnackBar(content: Text(e.toString())),
+);
+}
+},
 
-                          builder: (_) =>
-                              const HomeScreen(),
-
-                        ),
-
-                      );
-
-                    },
-
-
-                    child: const Text(
+child: const Text(
 
                       'إنشاء حساب',
 
