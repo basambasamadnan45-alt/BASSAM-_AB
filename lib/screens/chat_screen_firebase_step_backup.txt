@@ -24,7 +24,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
 
   final MessageService _messageService = MessageService();
-  final List<String> messages = [];
 
 
   void sendMessage() {
