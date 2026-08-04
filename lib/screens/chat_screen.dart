@@ -16,170 +16,106 @@ class ChatScreen extends StatefulWidget {
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-
 class _ChatScreenState extends State<ChatScreen> {
-
   final TextEditingController messageController =
       TextEditingController();
 
-
   final MessageService _messageService = MessageService();
+
   final List<String> messages = [];
 
-
-  void sendMessage() {
-
+  Future<void> sendMessage() async {
     if (messageController.text.trim().isEmpty) {
       return;
     }
 
+    final message = MessageModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      senderId: 'currentUser',
+      receiverId: widget.otherUserId,
+      content: messageController.text.trim(),
+      messageType: 'text',
+      isSeen: false,
+      sentAt: DateTime.now(),
+    );
+
+    await _messageService.sendMessage(message);
+
     setState(() {
-
-      messages.add(
-        messageController.text.trim(),
-      );
-
-      messageController.clear();
-
+      messages.add(message.content);
     });
 
+    messageController.clear();
   }
-
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       appBar: AppBar(
-
-        title: const Text(
-          'المحادثات',
-        ),
-
+        title: const Text('المحادثات'),
         centerTitle: true,
-
       ),
-
-
       body: Column(
-
         children: [
-
           Expanded(
-
             child: ListView.builder(
-
               padding: const EdgeInsets.all(15),
-
               itemCount: messages.length,
-
               itemBuilder: (context, index) {
-
                 return Align(
-
                   alignment: Alignment.centerRight,
-
                   child: Container(
-
-                    margin: const EdgeInsets.only(
-                      bottom: 10,
-                    ),
-
+                    margin: const EdgeInsets.only(bottom: 10),
                     padding: const EdgeInsets.all(12),
-
                     decoration: BoxDecoration(
-
                       color: Colors.blue,
-
-                      borderRadius:
-                          BorderRadius.circular(15),
-
+                      borderRadius: BorderRadius.circular(15),
                     ),
-
-
                     child: Text(
-
                       messages[index],
-
                       style: const TextStyle(
-
                         color: Colors.white,
-
                         fontSize: 16,
-
                       ),
-
                     ),
-
                   ),
-
                 );
-
               },
-
             ),
-
           ),
-
-
           Container(
-
             padding: const EdgeInsets.all(10),
-
             child: Row(
-
               children: [
-
                 Expanded(
-
                   child: TextField(
-
                     controller: messageController,
-
                     decoration: InputDecoration(
-
                       hintText: 'اكتب رسالة',
-
                       border: OutlineInputBorder(
-
-                        borderRadius:
-                            BorderRadius.circular(20),
-
+                        borderRadius: BorderRadius.circular(20),
                       ),
-
                     ),
-
                   ),
-
                 ),
-
-
                 IconButton(
-
                   onPressed: sendMessage,
-
                   icon: const Icon(
-
                     Icons.send,
-
                     color: Colors.blue,
-
                   ),
-
                 ),
-
               ],
-
             ),
-
           ),
-
         ],
-
       ),
-
     );
+  }
 
+  @override
+  void dispose() {
+    messageController.dispose();
+    super.dispose();
   }
 }
