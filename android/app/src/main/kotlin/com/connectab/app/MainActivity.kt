@@ -1,4 +1,4 @@
-package com.example.bassam_ab
+package com.connectab.app
 
 import io.flutter.embedding.android.FlutterActivity
 
