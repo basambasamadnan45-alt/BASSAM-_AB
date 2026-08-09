@@ -17,29 +17,17 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -58,5 +46,42 @@ class DefaultFirebaseOptions {
     messagingSenderId: '953227686629',
     projectId: 'connect-ab',
     storageBucket: 'connect-ab.firebasestorage.app',
+  );
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyATRpbz85735FUGJgcPKecyhoj1gkIJWj0',
+    appId: '1:953227686629:web:12eabeeedc0219722c1a0c',
+    messagingSenderId: '953227686629',
+    projectId: 'connect-ab',
+    authDomain: 'connect-ab.firebaseapp.com',
+    storageBucket: 'connect-ab.firebasestorage.app',
+    measurementId: 'G-T26BEZLWXF',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBpcIhbYwozwPoBHN-fpbSPIvhe1y-cMDo',
+    appId: '1:953227686629:ios:a55616affc2fe50f2c1a0c',
+    messagingSenderId: '953227686629',
+    projectId: 'connect-ab',
+    storageBucket: 'connect-ab.firebasestorage.app',
+    iosBundleId: 'com.example.bassamAb',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBpcIhbYwozwPoBHN-fpbSPIvhe1y-cMDo',
+    appId: '1:953227686629:ios:a55616affc2fe50f2c1a0c',
+    messagingSenderId: '953227686629',
+    projectId: 'connect-ab',
+    storageBucket: 'connect-ab.firebasestorage.app',
+    iosBundleId: 'com.example.bassamAb',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyATRpbz85735FUGJgcPKecyhoj1gkIJWj0',
+    appId: '1:953227686629:web:1ed419629a9d08ec2c1a0c',
+    messagingSenderId: '953227686629',
+    projectId: 'connect-ab',
+    authDomain: 'connect-ab.firebaseapp.com',
+    storageBucket: 'connect-ab.firebasestorage.app',
+    measurementId: 'G-QJCFCB21YY',
   );
 }
