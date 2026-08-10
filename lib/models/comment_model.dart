@@ -4,9 +4,9 @@ class CommentModel {
   final String userId;
   final String username;
   final String userPhoto;
-  final String content;
-  final List<String> likes;
+  final String text;
   final DateTime createdAt;
+  final List<String> likes;
 
   CommentModel({
     required this.id,
@@ -14,9 +14,9 @@ class CommentModel {
     required this.userId,
     required this.username,
     required this.userPhoto,
-    required this.content,
-    required this.likes,
+    required this.text,
     required this.createdAt,
+    required this.likes,
   });
 
   factory CommentModel.fromMap(Map<String, dynamic> map) {
@@ -26,9 +26,14 @@ class CommentModel {
       userId: map['userId'] ?? '',
       username: map['username'] ?? '',
       userPhoto: map['userPhoto'] ?? '',
-      content: map['content'] ?? '',
-      likes: List<String>.from(map['likes'] ?? []),
-      createdAt: DateTime.tryParse(map['createdAt'] ?? '') ?? DateTime.now(),
+      text: map['text'] ?? '',
+      createdAt: DateTime.tryParse(
+            map['createdAt'] ?? '',
+          ) ??
+          DateTime.now(),
+      likes: List<String>.from(
+        map['likes'] ?? <String>[],
+      ),
     );
   }
 
@@ -39,9 +44,9 @@ class CommentModel {
       'userId': userId,
       'username': username,
       'userPhoto': userPhoto,
-      'content': content,
-      'likes': likes,
+      'text': text,
       'createdAt': createdAt.toIso8601String(),
+      'likes': likes,
     };
   }
 }

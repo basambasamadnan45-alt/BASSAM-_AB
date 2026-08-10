@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../services/post_service.dart';
 
@@ -58,9 +59,25 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         throw Exception("يجب تسجيل الدخول أولاً");
       }
 
-      await _postService.createPost(
+String imageUrl = '';
+
+      if (_selectedImage != null) {
+        final fileName =
+            '${user.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('posts')
+            .child(user.uid)
+            .child(fileName);
+
+        await storageRef.putFile(_selectedImage!);
+        imageUrl = await storageRef.getDownloadURL();
+      }
+
+            await _postService.createPost(
         text: _postController.text.trim(),
-        imageUrl: "",
+        imageUrl: imageUrl,
         userId: user.uid,
         username: user.email ?? "مستخدم",
       );
