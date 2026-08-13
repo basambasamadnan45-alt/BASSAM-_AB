@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
-import 'screens/home_screen.dart';
+import 'screens/main_navigation_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/chat_screen.dart';
 import 'screens/settings_screen.dart';
@@ -40,7 +40,7 @@ class ConnectAB extends StatelessWidget {
 
       theme: ThemeData(
 
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF7C4DFF)),
 
         fontFamily: 'Arial',
 
@@ -58,7 +58,7 @@ class ConnectAB extends StatelessWidget {
             const RegisterScreen(),
 
         '/home': (context) =>
-            const HomeScreen(),
+            const MainNavigationScreen(),
 
         '/profile': (context) =>
             const ProfileScreen(),
