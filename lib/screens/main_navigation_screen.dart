@@ -24,7 +24,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     const HomeScreen(),
     const SearchScreen(),
     const MessagesScreen(),
-    const SizedBox.shrink(),
+    const CreatePostScreen(),
     const ReelsScreen(),
     const ProfileScreen(),
   ];
@@ -135,8 +135,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             label: 'البحث',
           ),
           NavigationDestination(
-              icon: Icon(Icons.chat_bubble_outline),
-              selectedIcon: Icon(Icons.chat_bubble),
+              icon: Icon(Icons.forum_outlined),
+              selectedIcon: Icon(Icons.forum),
               label: 'Messages',
             ),
             NavigationDestination(
