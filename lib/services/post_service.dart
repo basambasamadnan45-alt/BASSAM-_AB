@@ -113,4 +113,47 @@ class PostService {
   Future<void> deletePost(String postId) async {
     await _posts.doc(postId).delete();
   }
+
+  Future<void> savePost({
+    required String postId,
+    required String userId,
+  }) async {
+    await _firestore
+        .collection('saved_posts')
+        .doc(userId)
+        .collection('posts')
+        .doc(postId)
+        .set({
+      'postId': postId,
+      'userId': userId,
+      'savedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> unsavePost({
+    required String postId,
+    required String userId,
+  }) async {
+    await _firestore
+        .collection('saved_posts')
+        .doc(userId)
+        .collection('posts')
+        .doc(postId)
+        .delete();
+  }
+
+  Future<bool> isPostSaved({
+    required String postId,
+    required String userId,
+  }) async {
+    final doc = await _firestore
+        .collection('saved_posts')
+        .doc(userId)
+        .collection('posts')
+        .doc(postId)
+        .get();
+
+    return doc.exists;
+  }
+
 }

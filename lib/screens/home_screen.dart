@@ -241,6 +241,46 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final PostService _postService = PostService();
   final Set<String> _viewedPosts = <String>{};
+  final Set<String> _savedPosts = <String>{};
+
+  Future<void> _toggleSavedPost(String postId) async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) return;
+
+    final wasSaved = _savedPosts.contains(postId);
+
+    setState(() {
+      if (wasSaved) {
+        _savedPosts.remove(postId);
+      } else {
+        _savedPosts.add(postId);
+      }
+    });
+
+    try {
+      if (wasSaved) {
+        await _postService.unsavePost(
+          postId: postId,
+          userId: userId,
+        );
+      } else {
+        await _postService.savePost(
+          postId: postId,
+          userId: userId,
+        );
+      }
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        if (wasSaved) {
+          _savedPosts.add(postId);
+        } else {
+          _savedPosts.remove(postId);
+        }
+      });
+    }
+  }
+
 
   String? get currentUserId => FirebaseAuth.instance.currentUser?.uid;
 
@@ -575,23 +615,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   IconButton(
                                     onPressed: () async {
-                                      try {
-                                        final result =
-                                            await SharePlus.instance.share(
-                                          ShareParams(
-                                            text:
-                                                'Check out this post on Connect AB',
-                                          ),
-                                        );
+  try {
+    final result = await SharePlus.instance.share(
+      ShareParams(
+        text: 'Check out this post on Connect AB',
+      ),
+    );
 
-                                        if (result.status ==
-                                            ShareResultStatus.success) {
-                                          await _postService
-                                              .incrementShares(postId);
-                                        }
-                                      } catch (_) {}
-                                    },
-                                    icon: const Icon(
+    if (result.status == ShareResultStatus.success) {
+      await _postService.incrementShares(postId);
+    }
+  } catch (_) {}
+},
+icon: const Icon(
                                       Icons.send_outlined,
                                     ),
                                     tooltip: 'مشاركة',
