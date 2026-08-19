@@ -614,6 +614,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   IconButton(
+  onPressed: () async {
+    await _toggleSavedPost(postId);
+  },
+  icon: Icon(
+    _savedPosts.contains(postId)
+        ? Icons.bookmark
+        : Icons.bookmark_border,
+  ),
+  tooltip: 'Save post',
+),
+IconButton(
                                     onPressed: () async {
   try {
     final result = await SharePlus.instance.share(
