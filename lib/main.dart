@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
@@ -47,7 +48,7 @@ class ConnectAB extends StatelessWidget {
       ),
 
 
-      home: const StartScreen(),
+      home: const AuthGate(),
 
       routes: {
 
@@ -77,6 +78,21 @@ class ConnectAB extends StatelessWidget {
 }
 
 
+
+class AuthGate extends StatelessWidget {
+  const AuthGate({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      return const MainNavigationScreen();
+    }
+
+    return const StartScreen();
+  }
+}
 
 class StartScreen extends StatelessWidget {
 

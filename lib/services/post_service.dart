@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/notification_model.dart';
+import 'notification_service.dart';
 
 class PostService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -32,6 +34,13 @@ class PostService {
       'viewsCount': 0,
       'createdAt': FieldValue.serverTimestamp(),
     });
+
+    await _firestore
+        .collection('users')
+        .doc(userId)
+        .update({
+      'postsCount': FieldValue.increment(1),
+    });
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getPosts() {
@@ -44,9 +53,40 @@ class PostService {
     required String postId,
     required String userId,
   }) async {
-    await _posts.doc(postId).update({
+    final postRef = _posts.doc(postId);
+    final postSnapshot = await postRef.get();
+
+    if (!postSnapshot.exists) return;
+
+    final data = postSnapshot.data() ?? <String, dynamic>{};
+    final ownerId = data['ownerId']?.toString() ?? '';
+    final likes = List<String>.from(data['likes'] ?? <String>[]);
+
+    // Prevent duplicate likes and duplicate like notifications.
+    if (likes.contains(userId)) return;
+
+    await postRef.update({
       'likes': FieldValue.arrayUnion([userId]),
     });
+
+    // Do not notify a user about their own like.
+    if (ownerId.isEmpty || ownerId == userId) return;
+
+    try {
+      final notification = NotificationModel(
+        id: DateTime.now().microsecondsSinceEpoch.toString(),
+        receiverId: ownerId,
+        senderId: userId,
+        type: 'like',
+        title: 'New like',
+        body: 'Someone liked your post on Connect AB.',
+        isRead: false,
+      postId: postId,
+        createdAt: DateTime.now(),
+      );
+
+      await NotificationService().createNotification(notification);
+    } catch (_) {}
   }
 
   Future<void> unlikePost({

@@ -7,6 +7,9 @@ class NotificationModel {
   final String body;
   final bool isRead;
   final DateTime createdAt;
+  final String? postId;
+  final String? targetUserId;
+  final String? chatId;
 
   NotificationModel({
     required this.id,
@@ -17,6 +20,9 @@ class NotificationModel {
     required this.body,
     required this.isRead,
     required this.createdAt,
+    this.postId,
+    this.targetUserId,
+    this.chatId,
   });
 
   factory NotificationModel.fromMap(Map<String, dynamic> map) {
@@ -28,7 +34,11 @@ class NotificationModel {
       title: map['title'] ?? '',
       body: map['body'] ?? '',
       isRead: map['isRead'] ?? false,
-      createdAt: DateTime.tryParse(map['createdAt'] ?? '') ?? DateTime.now(),
+      createdAt:
+          DateTime.tryParse(map['createdAt'] ?? '') ?? DateTime.now(),
+      postId: map['postId']?.toString(),
+      targetUserId: map['targetUserId']?.toString(),
+      chatId: map['chatId']?.toString(),
     );
   }
 
@@ -42,6 +52,9 @@ class NotificationModel {
       'body': body,
       'isRead': isRead,
       'createdAt': createdAt.toIso8601String(),
+      'postId': postId,
+      'targetUserId': targetUserId,
+      'chatId': chatId,
     };
   }
 }

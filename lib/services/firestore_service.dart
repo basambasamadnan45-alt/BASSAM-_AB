@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/notification_model.dart';
+import 'notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreService {
@@ -87,6 +89,25 @@ class FirestoreService {
         'followers': followers,
       });
     });
+
+    // Create a notification after a successful follow.
+    try {
+      final notificationService = NotificationService();
+
+      final notification = NotificationModel(
+        id: DateTime.now().microsecondsSinceEpoch.toString(),
+        receiverId: targetUserId,
+        senderId: currentUserId,
+        type: 'follow',
+        title: 'New follower',
+        body: 'Someone started following you on Connect AB.',
+        isRead: false,
+        createdAt: DateTime.now(),
+      targetUserId: targetUserId,
+      );
+
+      await notificationService.createNotification(notification);
+    } catch (_) {}
   }
 
   Future<void> unfollowUser({

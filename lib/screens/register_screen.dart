@@ -1,7 +1,7 @@
 import '../services/auth_service.dart';
 import '../services/firestore_service.dart';
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'main_navigation_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           gradient: LinearGradient(
 
             colors: [
-              Colors.blue,
+              Color(0xFF7C4DFF),
               Colors.purple,
             ],
 
@@ -204,7 +204,7 @@ if (!context.mounted) return;
 Navigator.pushReplacement(
 context,
 MaterialPageRoute(
-builder: (_) => const HomeScreen(),
+builder: (_) => const MainNavigationScreen(),
 ),
 );
 }

@@ -22,6 +22,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   final PostService _postService = PostService();
 
   File? _selectedImage;
+  File? _selectedVideo;
+  String _mediaType = 'text';
   bool _isLoading = false;
 
   Future<void> _pickImage() async {
@@ -34,12 +36,31 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
     setState(() {
       _selectedImage = File(image.path);
+      _selectedVideo = null;
+      _mediaType = 'image';
     });
   }
 
+  Future<void> _pickVideo() async {
+    final XFile? video = await _picker.pickVideo(
+      source: ImageSource.gallery,
+      maxDuration: const Duration(minutes: 5),
+    );
+
+    if (video == null) return;
+
+    setState(() {
+      _selectedVideo = File(video.path);
+      _selectedImage = null;
+      _mediaType = 'video';
+    });
+  }
+
+
   Future<void> _publishPost() async {
     if (_postController.text.trim().isEmpty &&
-        _selectedImage == null) {
+        _selectedImage == null &&
+        _selectedVideo == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("اكتب منشورًا أو اختر صورة"),
@@ -61,23 +82,28 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
 String imageUrl = '';
 
-      if (_selectedImage != null) {
-        final fileName =
-            '${user.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+    final mediaFile = _selectedVideo ?? _selectedImage;
 
-        final storageRef = FirebaseStorage.instance
-            .ref()
-            .child('posts')
-            .child(user.uid)
-            .child(fileName);
+    if (mediaFile != null) {
+      final extension = _mediaType == 'video' ? 'mp4' : 'jpg';
 
-        await storageRef.putFile(_selectedImage!);
-        imageUrl = await storageRef.getDownloadURL();
-      }
+      final fileName =
+          '${user.uid}_${DateTime.now().millisecondsSinceEpoch}.$extension';
+
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('posts')
+          .child(user.uid)
+          .child(fileName);
+
+      await storageRef.putFile(mediaFile);
+      imageUrl = await storageRef.getDownloadURL();
+    }
 
             await _postService.createPost(
         text: _postController.text.trim(),
         imageUrl: imageUrl,
+        mediaType: _mediaType,
         userId: user.uid,
         username: user.email ?? "مستخدم",
       );
@@ -113,7 +139,7 @@ String imageUrl = '';
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFF7C4DFF),
         centerTitle: true,
         title: const Text(
           "إضافة منشور",
@@ -160,7 +186,27 @@ String imageUrl = '';
               ),
             ),
             
-const SizedBox(height: 16),
+Row(
+      children: [
+        Expanded(
+          child: OutlinedButton.icon(
+            onPressed: _isLoading ? null : _pickImage,
+            icon: const Icon(Icons.image_outlined),
+            label: const Text('صورة'),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: OutlinedButton.icon(
+            onPressed: _isLoading ? null : _pickVideo,
+            icon: const Icon(Icons.video_library_outlined),
+            label: const Text('فيديو'),
+          ),
+        ),
+      ],
+    ),
+
+    const SizedBox(height: 16),
     
             ElevatedButton.icon(
               onPressed: _isLoading ? null : _publishPost,
@@ -178,7 +224,7 @@ const SizedBox(height: 16),
                 _isLoading ? "جاري النشر..." : "نشر",
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: Color(0xFF7C4DFF),
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),
