@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: const Color(0xFFF5F7FA),
+        backgroundColor: const Color(0xFFF8F5FF),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -171,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             labelText: 'البريد الإلكتروني',
                             prefixIcon: const Icon(Icons.email_outlined),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14),
+                              borderRadius: BorderRadius.circular(24),
                             ),
                           ),
                         ),
@@ -234,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: isLoading ? null : login,
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
+                                borderRadius: BorderRadius.circular(24),
                               ),
                             ),
                             child: isLoading
