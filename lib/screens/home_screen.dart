@@ -500,6 +500,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             vertical: 6,
                           ),
                           clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+      ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
@@ -581,7 +584,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       isLiked
                                           ? Icons.favorite
                                           : Icons.favorite_border,
-                                      color: isLiked ? Color(0xFFFF4081) : null,
+                                      color: isLiked ? const Color(0xFF7C4DFF) : null,
                                     ),
                                     tooltip: 'إعجاب',
                                   ),
