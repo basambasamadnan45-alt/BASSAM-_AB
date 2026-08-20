@@ -341,7 +341,8 @@ void _togglePlay() {
                   ),
                 ),
                 const SizedBox(height: 6),
-                const Text(
+    const Text(
+            
                   'Share',
                   style: TextStyle(
                     color: Colors.white,
