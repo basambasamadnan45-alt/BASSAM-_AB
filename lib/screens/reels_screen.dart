@@ -74,8 +74,9 @@ class ReelsScreen extends StatelessWidget {
 
               return _ReelItem(
                 postId: doc.id,
+          ownerId: data['ownerId']?.toString() ?? '',
                 videoUrl: urls.first,
-                username: data['username']?.toString() ?? '',
+          username: data['ownerUsername']?.toString() ?? data['username']?.toString() ?? '',
                 caption: data['caption']?.toString() ?? '',
                 likes: likes,
               );
@@ -89,6 +90,7 @@ class ReelsScreen extends StatelessWidget {
 
 class _ReelItem extends StatefulWidget {
   final String postId;
+  final String ownerId;
   final List<String> likes;
   final String videoUrl;
   final String username;
@@ -96,6 +98,7 @@ class _ReelItem extends StatefulWidget {
 
   const _ReelItem({
     required this.postId,
+    required this.ownerId,
     required this.likes,
     required this.videoUrl,
     required this.username,
