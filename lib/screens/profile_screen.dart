@@ -240,8 +240,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: const EdgeInsets.all(2),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        crossAxisSpacing: 2,
-        mainAxisSpacing: 2,
+        crossAxisSpacing: 3,
+        mainAxisSpacing: 3,
       ),
       itemCount: _posts.length,
       itemBuilder: (context, index) {
@@ -309,7 +309,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Text(
                       '@$username',
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                color: const Color(0xFF7C4DFF),
+                fontWeight: FontWeight.w600,
                       ),
                     ),
                   if (bio.isNotEmpty) ...[
@@ -342,6 +343,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 46,
                     child: OutlinedButton.icon(
                       onPressed: _editProfile,
+style: OutlinedButton.styleFrom(
+  foregroundColor: const Color(0xFF7C4DFF),
+  side: const BorderSide(color: Color(0xFF7C4DFF)),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(14),
+  ),
+),
                       icon: const Icon(Icons.edit_outlined),
                       label: const Text(
                         'تعديل الملف الشخصي',
