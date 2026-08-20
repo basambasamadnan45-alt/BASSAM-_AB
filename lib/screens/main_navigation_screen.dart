@@ -8,7 +8,6 @@ import 'reels_screen.dart';
 import 'profile_screen.dart';
 import 'notifications_screen.dart';
 import 'settings_screen.dart';
-import 'messages_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -23,8 +22,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   late final List<Widget> _screens = [
     const HomeScreen(),
     const SearchScreen(),
-    const MessagesScreen(),
-    const CreatePostScreen(),
+        const CreatePostScreen(),
     const ReelsScreen(),
     const ProfileScreen(),
   ];
